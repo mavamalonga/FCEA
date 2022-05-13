@@ -5,46 +5,52 @@ from django.core.validators import RegexValidator
 
 
 class User(AbstractUser, models.Model):
-	phone_regex = RegexValidator(regex=r'^\+?1?\d{9,10}$',
-		message="Phone number must be entered in the format: '+999999999'")
-	phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True, null=True)
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,10}$',
+        message="Phone number must be entered in the format: '+999999999'")
+    phone_number = models.CharField(validators=[phone_regex], max_length=10, blank=True, null=True)
 
-	def __str__(self):
-		return self.first_name
+    def __str__(self):
+        return self.first_name
 
 class Photo(models.Model):
-	name = models.CharField(max_length=50)
-	image = models.ImageField()
-	uploader = models.ForeignKey(User, on_delete=models.CASCADE)
-	date_created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=50)
+    image = models.ImageField()
+    uploader = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
 
 
 class Club(models.Model):
-	name = models.CharField(max_length=50)
-	address = models.CharField(max_length=200)
-	photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
-	presentation = models.TextField(max_length=5000)
-	address = models.CharField(max_length=200)
-	infrastructure = models.TextField(max_length=5000)
-	secretariat = models.CharField(max_length=500)
-	network_link = models.CharField(max_length=200)
-	network_link_2 = models.CharField(max_length=200)
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=200)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+    presentation = models.TextField(max_length=5000)
+    infrastructure = models.TextField(max_length=5000)
+    secretariat = models.CharField(max_length=500)
+    network_link = models.CharField(max_length=200)
+    network_link_2 = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = ("Club")
+
 
 
 class Event(models.Model):
 
-	title = models.CharField(max_length=50)
-	description = models.TextField(max_length=8192)
-	date = models.DateTimeField()
-	address = models.CharField(max_length=200)
-	photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
-	date_created = models.DateTimeField(auto_now_add=True)
-	
-	def __str__(self):
-		return self.name
+    title = models.CharField(max_length=50)
+    description = models.TextField(max_length=8192)
+    date = models.DateTimeField()
+    address = models.CharField(max_length=200)
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
 
 
 class Category(models.Model):
@@ -78,6 +84,9 @@ class Category(models.Model):
         default=Biberon,
     )
 
+    class Meta:
+        verbose_name_plural = ("Categories")
+
     def __str__(self):
         return self.category_choices
 
@@ -106,17 +115,17 @@ class Level(models.Model):
 
 
 class Team(models.Model):
-	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-	level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True)
-	coach = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='coach')
-	coach_adj = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, 
-		related_name='adjoint')
-	photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
-	classement = models.CharField(max_length=20, null=True)
-	agenda = models.CharField(max_length=20, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True)
+    coach = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='coach')
+    coach_adj = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, 
+        related_name='adjoint')
+    photo = models.ForeignKey(Photo, on_delete=models.SET_NULL, null=True)
+    classement = models.CharField(max_length=20, null=True)
+    agenda = models.CharField(max_length=20, null=True)
 
-	def __str__(self):
-		return str(self.category)
+    def __str__(self):
+        return str(self.category)
 
-	def __str__(self):
-		return self.name
+    def __str__(self):
+        return self.name
