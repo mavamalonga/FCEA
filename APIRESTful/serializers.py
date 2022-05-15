@@ -15,7 +15,8 @@ class UserSerializer(ModelSerializer):
 
 	class Meta:
 		model = models.User
-		fields = ('username', 'email', 'password', 'password2')
+		#fields = ('username', 'email', 'password', 'password2')
+		fields = '__all__'
 
 	def validate(self, attrs):
 		if attrs['password'] != attrs['password2']:
@@ -48,8 +49,8 @@ class ClubSerializer(ModelSerializer):
 	class Meta:
 		model = models.Photo
 		fields = ('id', 'name', 'address', 'photo', 'presentation', 'infrastructure',
-            'secretariat', 'network_link', 'network_link_2')
-        
+			'secretariat', 'network_link', 'network_link_2')
+		
 
 class EventSerializer(ModelSerializer):
 	class Meta:

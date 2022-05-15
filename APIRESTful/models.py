@@ -128,4 +128,4 @@ class Team(models.Model):
         return str(self.category)
 
     def __str__(self):
-        return self.name
+        return str(self.category)+str(self.level)

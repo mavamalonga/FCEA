@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Photo, Club, Event, Team, Category, Level
+from . import models
 
 
 # resolve interface bug sticky-nav-bar
@@ -8,7 +8,7 @@ admin.autodiscover()
 admin.site.enable_nav_sidebar = False
 
 
-@admin.register(User)
+@admin.register(models.User)
 class UserAdmin(UserAdmin):
 	list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active', 'phone_number')
 	list_filter = ('groups',)
@@ -31,36 +31,36 @@ class UserAdmin(UserAdmin):
         })
     )
 
-@admin.register(Photo)
+@admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
 	list_display = ('id', 'uploader',)
 	list_filter = ('date_created',)
 
 
-@admin.register(Club)
+@admin.register(models.Club)
 class ClubAdmin(admin.ModelAdmin):
 	list_display = ('id', 'name', 'address',)
 
 
-@admin.register(Event)
+@admin.register(models.Event)
 class EventAdmin(admin.ModelAdmin):
 	list_display = ('id', 'title', 'date',)
 	list_filter = ('date_created',)
 	search_fields = ('title', )
 
 
-@admin.register(Team)
+@admin.register(models.Team)
 class TeamAdmin(admin.ModelAdmin):
 	list_display = ( 'category', 'level', 'coach', 'coach_adj',)
 	list_filter = ('category', 'coach')
 	search_fields = ('category',)
 
 
-@admin.register(Category)
+@admin.register(models.Category)
 class CategoryAdmin(admin.ModelAdmin):
 	pass
 
 
-@admin.register(Level)
+@admin.register(models.Level)
 class LevelAdmin(admin.ModelAdmin):
 	pass
